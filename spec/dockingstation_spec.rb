@@ -13,8 +13,8 @@ describe DockingStation do
 
   it 'should be able to dock a bike' do
     docking_station = DockingStation.new
-    bike = double("Bike")
-    expect(docking_station.dock(bike)).to eq(bike)
+    bike = docking_station.release_bike
+    expect(docking_station.dock(bike)).to eq(true)
   end
 
   it 'should release a bike object' do
@@ -27,6 +27,19 @@ describe DockingStation do
   it "raises an error if bike is unavailable" do
     docking_station = DockingStation.new
     x = docking_station.release_bike
+    test = []
+    (1..20).each do | y | 
+      test.append(docking_station.bikes.pop)
+    end
     expect {docking_station.release_bike}.to raise_error "No bikes available"
   end
+
+  it "raises an error if no space is available for the bike" do
+    docking_station = DockingStation.new
+    bike = Bike.new
+    expect {docking_station.dock(bike)}.to raise_error "No station space available"
+  end
+
+
+
 end
