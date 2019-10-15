@@ -14,15 +14,19 @@ describe DockingStation do
   it 'should be able to dock a bike' do
     docking_station = DockingStation.new
     bike = double("Bike")
-    expect(docking_station).to receive(:dock).with(bike)
+    expect(docking_station.dock(bike)).to eq(bike)
   end
 
   it 'should release a bike object' do
     docking_station = DockingStation.new
-    expect(docking_station.release_bike).to be_instance_of(Bike)
+    bike = docking_station.release_bike
+    docking_station.dock(bike)
+    expect(docking_station.release_bike).to be_a(Bike)
   end
 
   it "raises an error if bike is unavailable" do
-    expect
+    docking_station = DockingStation.new
+    x = docking_station.release_bike
+    expect {docking_station.release_bike}.to raise_error "No bikes available"
   end
 end
